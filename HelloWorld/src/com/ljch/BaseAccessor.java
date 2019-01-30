@@ -1,512 +1,1127 @@
-package com.ljch;
+package com.rdf.cdk.business;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Proxy;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 import android.text.TextUtils;
-import cn.com.sdk.base.common.tools.log.LogUtils;
-import com.amap.api.services.district.DistrictSearchQuery;
-import com.host.model.H5UrlConfigInfo;
-import com.rdf.cdk.business.BConstants;
 import com.rdf.cdk.interfaces.InterfaceHelper;
-import com.rdf.cdk.interfaces.Interfaces.Header;
-import com.rdf.cdk.jni.Common;
-import com.rdf.cdk.model.BaseNetData;
-import com.rdf.cdk.model.ShareUserLogin;
-import com.rdf.cdk.util.CodeUtil;
-import com.rdf.cdk.util.L;
-import com.rdf.cdk.util.MD5;
-import com.rdf.cdk.util.MemoryCache;
-import com.rdf.cdk.util.NetUtils;
-import com.rdf.cdk.util.SharedPreferencesTools;
-import com.rdf.cdk.util.Tools;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-public class BaseAccessor {
-    private static String[] a = new String[]{"accountAlias", "agentId", "appVersion", "appType", "accountNo", "brand", "channel", "ckStr", "cmsWhere", "deviceVersion", "deviceVer", "interfaceVersion", "iswx", "logicVID", "lskey", "manufacturer", DistrictSearchQuery.KEYWORDS_PROVINCE, "platform", "user-agent-key", "uuid", "uid", "screenRes", "sdkVer", "vest", "vId", "token", "nonce", "timestamp"};
+public class BConstants {
+    public static String ACCOUNTALIAS = "";
+    public static final String ACCOUNT_REFRESH = "account_refresh";
+    public static final String ACTION_AUTO_LOGIN_SUCCESS = "cn.gov.lottery.action.AUTO_LOGIN_SUCCESS";
+    public static final String ACTION_BACK_TO_FRONT = "cn.gov.lottery.action_back_to_front";
+    public static final String ACTION_DOWNLOAD_ERR = "cn.gov.lottery.download_err";
+    public static final String ACTION_FLOATING_LAYTER = "cn.gov.lottery.action.FLOATING_LAYTER";
+    public static final String ACTION_FORCE_UPDATE = "cn.gov.lottery.action.ACTION_FORCE_UPDATE";
+    public static final String ACTION_LOGIN_FAIL = "cn.gov.lottery.ACTION.LOGIN_FAIL";
+    public static final String ACTION_LOGIN_SUCCESS = "cn.gov.lottery.ACTION.LOGIN_SUCCESS";
+    public static final String ACTION_NEW_COUPON = "action_new_coupon";
+    public static final String ACTION_ORIGINAL_PAY = "cn.gov.lottery.action.ORIGINAL_PAY";
+    public static final String ACTION_PKG_INSTALL = "com.zhongcai500.PKG_INSTALL";
+    public static final String ACTION_PKG_LOADED = "com.zhongcai500.ACTION.PKG_LOADED";
+    public static final String ACTION_SHARE_FAIL = "cn.gov.lottery.ACTION.SHARE_FAIL";
+    public static final String ACTION_SHARE_SUCCESS = "cn.gov.lottery.ACTION.SHARE_SUCCESS";
+    public static final String ACTION_SHOW_HOME_DLG = "cn.gov.lottery.action_show_home_dlg";
+    public static final String ACTION_SOFT_UPDATE_COMPLETE = "cn.gov.lottery.action.TAB_SOFT_UPDATE_COMPLETE";
+    public static final String ACTION_TAB_IMAGE_COMPLETE = "cn.gov.lottery.action.TAB_IMAGE_COMPLETE";
+    public static final String ANHUI_ELEVEN5_ID = "217";
+    public static final String APP_VERSION = "app_version";
+    public static final int AUTO_LOGIN = 1;
+    public static final String AboutClick = "about_click";
+    public static final String AccountStepInto = "account_stepin";
+    public static final int Account_Cancel = 1009;
+    public static final int Account_OK = 1004;
+    public static final String ActivityCenterClick = "activity_center_click";
+    public static final String AppAdviceClick = "app_advice_click";
+    public static final double BAODI_RATE = 0.2d;
+    public static String BASE_JS_URL = ("https://accpbet.sporttery.cn/igw/v1.0//static/mobile_app" + Channel_URL);
+    public static String BASE_URL = ("https://accpbet.sporttery.cn/igw/v1.0/" + Channel_URL);
+    public static final String BD = "bd";
+    public static final String BEIJING_ELEVEN5_ID = "110";
+    public static final String BET_RECORD = "betRecord";
+    public static final String BID_OFFLINE = "2192";
+    public static final String BQ = "bq";
+    public static final String BRIDGE_ACTION_EVENT = "event";
+    public static final String BRIDGE_CALLBACK_METHOD = "callback_method";
+    public static final int BROWSER_LOGIN_REQUESTCODE = 1111;
+    public static final String BUY_PAGE = "buyPage";
+    public static final String BUY_RESULT_STATE = "buy_result_state";
+    public static final String BUY_SUCESS = "buySucess";
+    public static final String BackToMain = "back_to_main";
+    public static final int BetDetail_OK = 1012;
+    public static final int BetList_Cancel = 1007;
+    public static final int BetList_OK = 1002;
+    public static final String BootConfig = "bootconfige";
+    public static final String BuyBack = "buy_back";
+    public static final String BuyBet = "buy_bet";
+    public static final String CHP = "CHP";
+    public static final String COMMON_11x5 = "11x5";
+    public static final String CONTENTSPLITEFLAG_Dollar = "$";
+    public static final String CONTENTSPLITEFLAG_DouHao = ",";
+    public static final String CONTENTSPLITEFLAG_HLine = "-";
+    public static final String CONTENTSPLITEFLAG_JH = "#";
+    public static final String CONTENTSPLITEFLAG_Semicolon = ";";
+    public static final String CONTENTSPLITEFLAG_VerticalLine = "|";
+    public static final String COUPON_ALL = "0";
+    public static final String COUPON_EXPIRED = "4";
+    public static final String COUPON_UNUSED = "1";
+    public static final String COUPON_USED = "3";
+    public static final String COUPON_USING = "2";
+    public static final String CQSSC = "cqssc";
+    public static final String CQSSC_1X = "1D";
+    public static final String CQSSC_2XZH = "2D";
+    public static final String CQSSC_2XZHHZ = "2XZHHZ";
+    public static final String CQSSC_2XZX = "Z2";
+    public static final String CQSSC_3XZ3 = "Z3";
+    public static final String CQSSC_3XZ6 = "Z6";
+    public static final String CQSSC_3XZH = "3D";
+    public static final String CQSSC_5XTX = "5T";
+    public static final String CQSSC_5XZH = "5D";
+    public static final String CQSSC_DXDS = "DD";
+    public static final String ChangeTagAction = "cn.gov.lottery.kjtag";
+    public static final String ChangeTagTitle = "kj_tag";
+    public static final String ChangeTagType = "kj_tag_change_type";
+    public static final String ChangeTagType_Delete = "0";
+    public static final String ChangeTagType_Set = "1";
+    public static String Channel_URL = "/app";
+    public static final String ChargeType = "4";
+    public static final String ChooseAdd = "choose_add";
+    public static final String ChooseBack = "choose_back";
+    public static final String ContinueBet = "continue_bet";
+    public static final String CouponBetMoneyName = "CouponBetMoney";
+    public static final String CouponBetTypeName = "CouponBetType";
+    public static final String CouponIdName = "CouponId";
+    public static final String CouponMoney = "CouponMoney";
+    public static final String CouponTypeAll = "0";
+    public static final String CouponTypeDigit = "1";
+    public static final String CouponTypeJc = "3";
+    public static final String CouponTypeKp = "2";
+    public static final String CouponTypeZH = "4";
+    public static final int Coupon_Selected = 1021;
+    public static final String CrashTimesSp = "XgCrashTimesSp";
+    public static final String DEFAULT_VISIBLE_LOTTERY = "85,35,350133,4,90,900129";
+    public static final String DEF_KJ_KEY = "def_kj_key";
+    public static final String DEF_SAIGUO_KEY = "def_saiguo_key";
+    public static final String DEF_ZJ_KEY = "def_zj_key";
+    public static final String DLC_11X5 = "dlc";
+    public static final String DLC_11X5_HT_PLAY = "HT";
+    public static final String DLC_11X5_Q1_PLAY = "R1";
+    public static final String DLC_11X5_Q2CX_PLAY = "Z2";
+    public static final String DLC_11X5_Q2DX_PLAY = "Q2";
+    public static final String DLC_11X5_Q3CX_PLAY = "Z3";
+    public static final String DLC_11X5_Q3DX_PLAY = "Q3";
+    public static final String DLC_11X5_RX2_PLAY = "R2";
+    public static final String DLC_11X5_RX3_PLAY = "R3";
+    public static final String DLC_11X5_RX4_PLAY = "R4";
+    public static final String DLC_11X5_RX5_PLAY = "R5";
+    public static final String DLC_11X5_RX6_PLAY = "R6";
+    public static final String DLC_11X5_RX7_PLAY = "R7";
+    public static final String DLC_11X5_RX8_PLAY = "R8";
+    public static final String DLT = "85";
+    public static final String DLT_DUPLEX_PLAY = "1_2";
+    public static final String DLT_OFFLINE = "85_offline";
+    public static String DLT_PLAY_DANTUO = "135";
+    public static String DLT_PLAY_DANTUO_ADD = "143";
+    public static String DLT_PLAY_DUPLEX = "387";
+    public static String DLT_PLAY_DUPLEX_ADD = "388";
+    public static final HashMap<String, String> DLT_PLAY_ID_MAPS;
+    public static String DLT_PLAY_MIXING = "389";
+    public static String DLT_PLAY_SIMPLEX = "1";
+    public static String DLT_PLAY_SIMPLEX_ADD = SFC6_NEW;
+    public static final String DLT_SIMPLEX_PLAY = "1_1";
+    public static final String DecimalPattern = "0.00";
+    public static final String DefFirstColumNum = "6";
+    public static final String DefFourthColumNum = "0";
+    public static final String DefSecoundColumNum = "4";
+    public static final String DefThirdColumNum = "8";
+    public static final String DefaultLotteryOrder = "jczq;gdx;ssq;dlt;gkl;lounge;jclq;bd;sfc;r9;k3;jk;dlc;syy;fc3d;pl3;pl5;qxc";
+    public static final String DefaultLotterySwitch = "ssq|1;gdx|1;jczq|1;dlt|1;k3|1;gkl|1;jclq|1;jk|1;dlc|1;syy|1;bd|1;fc3d|1;qxc|1;pl3|1;pl5|1;sfc|1;r9|1";
+    public static final int DefaultMultleDg = 5;
+    public static final int Drawing_Cancel = 1008;
+    public static final int Drawing_OK = 1003;
+    public static int EACH_PAY = 2;
+    public static int EACH_PAY_ADD = 3;
+    public static String ELEVEN5_ID = JANGSU_ELEVEN5_ID;
+    public static final String ELEVEN5_OFFLINE = "eleven5_offline";
+    public static final String ELEVEN5_Q2 = "Q2";
+    public static final String ELEVEN5_Q3 = "Q3";
+    public static final String ELEVEN5_R2DT = "R2DT";
+    public static final String ELEVEN5_R3DT = "R3DT";
+    public static final String ELEVEN5_R4DT = "R4DT";
+    public static final String ELEVEN5_R5DT = "R5DT";
+    public static final String ELEVEN5_R6DT = "R6DT";
+    public static final String ELEVEN5_R7DT = "R7DT";
+    public static final String ELEVEN5_RX1 = "R1";
+    public static final String ELEVEN5_RX2 = "R2";
+    public static final String ELEVEN5_RX3 = "R3";
+    public static final String ELEVEN5_RX4 = "R4";
+    public static final String ELEVEN5_RX5 = "R5";
+    public static final String ELEVEN5_RX6 = "R6";
+    public static final String ELEVEN5_RX7 = "R7";
+    public static final String ELEVEN5_RX8 = "R8";
+    public static final String ELEVEN5_Z2 = "Z2";
+    public static final String ELEVEN5_Z2DT = "Z2DT";
+    public static final String ELEVEN5_Z3 = "Z3";
+    public static final String ELEVEN5_Z3DT = "Z3DT";
+    public static final String EXIT_APP_ACTION = "EXIT_APP_ACTION";
+    public static final String EXIT_CHILD_PROCESS = "EXIT_CHILD_PROCESS";
+    public static final int Ensure_Nick_Name = 1024;
+    public static final int Exchange_Cancel = 1016;
+    public static final int Exchange_OK = 1015;
+    public static final String FAIL_RECORD_PAGE_NUMBER = "20";
+    public static final int FASET_CHASE_BIG = 60;
+    public static final int FASET_CHASE_HIGH = 30;
+    public static final int FASET_CHASE_NEW = 10;
+    public static final String FC3D = "fc3d";
+    public static final String FC3D_DUPLEX_PLAY = "7_2";
+    public static final String FC3D_SIMPLEX_PLAY = "7_1";
+    public static final String FC3D_Z3HZ_PLAY = "15_2";
+    public static final String FC3D_Z3_PLAY = "10_2";
+    public static final String FC3D_Z6HZ_PLAY = "14_2";
+    public static final String FC3D_Z6_PLAY = "9_2";
+    public static final String FILE_COMMONOPERATE_CONFIG = "CommonOperate.dat";
+    public static final String FILE_CROSSMARKET_CONFIG = "cross_marketing.dat";
+    public static final String FILE_DEF_CONFIG = "def_config.ini";
+    public static final String FILE_KEY_VALUE = "key_value.dat";
+    public static final String FILE_POPLAY_CONFIG = "poplay_config.dat";
+    public static final String FILE_SWITCH_CONFIG = "sys_switch.dat";
+    public static final String FILE_SoftUpdate_CONFIG = "StartSoftUpdateConfig.dat";
+    public static final String FILE_StartImage_CONFIG = "StartImageConfig.dat";
+    public static final String FILE_TopBar_CONFIG = "TopBarConfig.dat";
+    public static final String FILE_ZhuihaoConfig_CONFIG = "ZhuihaoConfig.dat";
+    public static final String FIRST_ANIM_SHOW = "tian_tian_gift_first_anim_show";
+    public static final String FIRST_COLUMN_NUM = "first_column_num";
+    public static final String FIRST_COLUMN_TITLE = "first_column_title";
+    public static final String FLOATING_LAYER_CONFIG = "def_float_layer_config.ini";
+    public static final String FNL = "FNL";
+    public static final String FORCE_UPDATE_CODE = "-99998";
+    public static final String FOURTH_COLUMN_NUM = "fourth_column_num";
+    public static final String FOURTH_COLUMN_TITLE = "fourth_column_title";
+    public static final String FROM_BROSWER = "from_browser";
+    public static final String FROM_DIGITAL_BUY = "from_digital_buy";
+    public static final String FROM_DIGITAL_HM = "from_digital_hm";
+    public static final String FROM_DIGIT_FAST_BET = "from_digit_fast_bet";
+    public static final String FROM_EURO_QUICK_BET = "from_euro_quick_bet";
+    public static final String FROM_H5_PAGE = "from_h5_page";
+    public static final String FROM_HEMAI_DETAIL = "from_hemai_detail";
+    public static final String FROM_HEMAI_HALL = "from_hemai_hall";
+    public static final String FROM_INTELLIGENTCHASE = "from_intelligentchase";
+    public static final String FROM_JOIN_HEMAI = "from_join_hemai";
+    public static final String FROM_K3_CASINO = "from_k3_casino";
+    public static final String FROM_MULTIPLE_RANDOM = "from_multiple_random";
+    public static final String FROM_OTHER_ACTIVITY = "form_other_activity";
+    public static final String FROM_QQ_BETLIST = "from_qq_betlist";
+    public static final String FROM_SPORTS_BUY = "from_sports_buy";
+    public static final String FROM_SPORTS_HM = "from_sports_hm";
+    public static final String FROM_WX_BETLIST = "from_wx_betlist";
+    public static final String FUJIAN_ELEVEN5_ID = "204";
+    public static final String FUNC_CONTROLL_LOTTERYWFBONUSTIPS = "lotteryWfBonusTips";
+    public static final String FalseStr = "0";
+    public static final String FromFlag = "fromflag";
+    public static final String GAMETIMESCONFIG = "GameTimesConfig";
+    public static final String GANSU_ELEVEN5_ID = "326";
+    public static final String GD11X5 = "gdx";
+    public static final String GD11X5_HT_PLAY = "HT";
+    public static final String GD11X5_Q1_PLAY = "R1";
+    public static final String GD11X5_Q2CX_PLAY = "Z2";
+    public static final String GD11X5_Q2DX_PLAY = "Q2";
+    public static final String GD11X5_Q3CX_PLAY = "Z3";
+    public static final String GD11X5_Q3DX_PLAY = "Q3";
+    public static final String GD11X5_RX2_PLAY = "R2";
+    public static final String GD11X5_RX3_PLAY = "R3";
+    public static final String GD11X5_RX4_PLAY = "R4";
+    public static final String GD11X5_RX5_PLAY = "R5";
+    public static final String GD11X5_RX6_PLAY = "R6";
+    public static final String GD11X5_RX7_PLAY = "R7";
+    public static final String GD11X5_RX8_PLAY = "R8";
+    public static final String GIFT_CLICK_KEY = "tian_tian_gift_click";
+    public static final String GIFT_CLICK_KEY_TIME = "tian_tian_gift_click_time";
+    public static final Long GOLD_MONEY_BASELINE = Long.valueOf(100000000);
+    public static final String GUANGDONG_ELEVEN5_ID = "111";
+    public static final String GUANGXI_ELEVEN5_ID = "221";
+    public static final String GUIZHOU_ELEVEN5_ID = "115";
+    public static final int GUNQIU_GUESS_RECORD = 1028;
+    public static final int GUNQIU_ORDER_LOGIN_OK = 1027;
+    public static final int GUNQIU_USER_AVATAR_LOGIN = 1029;
+    public static final HashMap<String, String> Gd11x5PlayMap;
+    public static final String GuoguanFitler = "guoguan_fitler";
+    public static final String H5BridgeOfJcBuy = "H5BridgeOfJcBuy";
+    public static final String H5CenterClick = "h5_center_click";
+    public static final String H5DomainName = "accpbet.sporttery.cn";
+    public static final String H5_SHARE = "h5_share";
+    public static final String HAS_SHOW_UPDATE = "has_show_update";
+    public static final String HEBEI_ELEVEN5_ID = "113";
+    public static final String HEILONGJIANG_ELEVEN5_ID = "214";
+    public static final String HEMAI_ALL = "all";
+    public static final int HEMAI_SUCCESS = 1;
+    public static final String HENAN_ELEVEN5_ID = "219";
+    public static final String HE_MAI = "heMai";
+    public static final String HM_SUGGEST = "hm_suggest";
+    public static final String HOST_URL = "https://accpbet.sporttery.cn/igw/v1.0/";
+    public static final String HT = "HT";
+    public static final String HUBEI_ELEVEN5_ID = "108";
+    public static final String HeMaiGenDanClick = "hemaigendan_click";
+    public static final String HemaiBuyBack = "hemaibuy_back";
+    public static final String HemaiBuyBet = "hemaibuy_bet";
+    public static final int HemaiDetail_OK = 1013;
+    public static final String HemaiFastBuyBet = "hemai_fast_buy_bet";
+    public static final String HemaiListBack = "hemailist_back";
+    public static final String HemaiListOrder = "hemailist_order";
+    public static final String HemaiListOrder_Money = "money";
+    public static final String HemaiListOrder_Progress = "progress";
+    public static final String Hm_Beishu = "beishu";
+    public static final String Hm_Code = "codes";
+    public static final String Hm_Guoguan = "guoguan";
+    public static final String Hm_Ids = "ids";
+    public static final String Hm_LotyName = "lotyname";
+    public static final String Hm_Peidui = "peidui";
+    public static final String Hm_PlayName = "playName";
+    public static final String Hm_PlayType = "playtype";
+    public static final String Hm_Qihao = "qihao";
+    public static final String Hm_QihaoId = "qihao_id";
+    public static final String Hm_Rangqiu = "rangqiu";
+    public static final String Hm_Sp = "sp";
+    public static final String Hm_Species = "species";
+    public static final String Hm_Sum = "sum";
+    public static final String Hm_Zhushu = "zhushu";
+    public static final String HotLoty = "1";
+    public static final String IMAGE_CLEAR_UP_LAST_MODIFIED = "image_clear_up_last_modified";
+    public static final long IMAGE_CLEAR_UP_PERIOD = 1296000000;
+    public static final String INTELLIGENT_CHASE = "Intelligent_chase";
+    public static final int INTELLIGENT_CHASE_SUCCESS = 1;
+    public static final String InFoUrl = "infourl";
+    public static final String InsideLetterClick = "inside_letter_click";
+    public static String InstallChannel = "";
+    public static String InstallChannelId = "1014";
+    public static final String IntelligentChaseBet = "intelligent_chase_bet";
+    public static final String Interface_BetFlag = "bet_interface";
+    public static final String Interface_LoginLottery = "login_lottery_interface";
+    public static final String Interface_LoginSdk = "login_sdk_interface";
+    public static final String IsZhuiJia = "is_zhuijia";
+    public static final String JANGSU_ELEVEN5_ID = "101";
+    public static final String JCGJ = "jcgj";
+    public static final String JCLQ = "jclq";
+    public static final String JCLQ_OFFLINE = "jclq_offline";
+    public static final HashMap<String, String> JCLQ_PLAY_ID_MAPS;
+    public static final HashMap<String, String> JCMC_PLAY_ID_MAPS;
+    public static final int JCQ_ORDER_LOGIN_OK = 2000;
+    public static final String JCZQ = "jczq";
+    public static final String JCZQ_DATA_INTELLIGENCE = "jczq_data_intelligence";
+    public static final String JCZQ_OFFLINE = "jczq_offline";
+    public static final HashMap<String, String> JCZQ_PLAY_ID_MAPS;
+    public static final double JC_BAODI_RATE = 0.05d;
+    public static final double JC_Self_RATE = 0.05d;
+    public static final String JIANGXI_ELEVEN5_ID = "220";
+    public static final String JILIN_ELEVEN5_ID = "222";
+    public static final HashMap<String, Map<String, String>> JJC_GAME_MAPS;
+    public static final String JJC_JCLQ_CODE = "1";
+    public static final String JJC_JCMC_CODE = "2";
+    public static final String JJC_JCZQ_CODE = "0";
+    public static final String JK = "jk";
+    public static final String JK3 = "jk3";
+    public static final String JK3_T3DX = "3B";
+    public static final String JLK3 = "jk3";
+    public static final HashMap<String, String> JLK3PlayMap;
+    public static final String JLK3_2BTH_PLAY = "2C";
+    public static final String JLK3_2THDX_PLAY = "2B";
+    public static final String JLK3_2THFX_PLAY = "2A";
+    public static final String JLK3_3BTH_PLAY = "3C";
+    public static final String JLK3_3LHTX_PLAY = "3D";
+    public static final String JLK3_3THDX_PLAY = "3B";
+    public static final String JLK3_3THTX_PLAY = "3A";
+    public static final String JLK3_CANSINO_TAG = "4_2070_1_2448";
+    public static final String JLK3_HT_PLAY = "HT";
+    public static final String JLK3_HZ_PLAY = "HZ";
+    public static final String JL_DXF = "dxf";
+    public static final String JL_HH = "hhgg";
+    public static final String JL_PLAY = "jl_play";
+    public static final String JL_PLAY_DXF_NEW = "277";
+    public static final String JL_PLAY_HHGG_NEW = "313";
+    public static final String JL_PLAY_RFSF_NEW = "275";
+    public static final String JL_PLAY_SFC_NEW = "276";
+    public static final String JL_PLAY_SF_NEW = "274";
+    public static final String JL_RFSF = "rfsf";
+    public static final String JL_SF = "sf";
+    public static final String JL_SFC = "sfc";
+    public static final String JQ = "jq";
+    public static final HashMap<String, String> JS11x5PlayMap;
+    public static final HashMap<String, String> JS11x5PlayNameMap;
+    public static final String JZ_2X1 = "2in1";
+    public static final String JZ_BF = "bf";
+    public static final String JZ_BQSPF = "bqspf";
+    public static final String JZ_HH = "hhgg";
+    public static final int JZ_MaxZhuShu = 10000;
+    public static final String JZ_PLAY = "jz_play";
+    public static final String JZ_PLAY_BF_NEW = "271";
+    public static final String JZ_PLAY_BQSPF_NEW = "272";
+    public static final String JZ_PLAY_HHGG_NEW = "312";
+    public static final String JZ_PLAY_RQSPF_NEW = "269";
+    public static final String JZ_PLAY_SPF_NEW = "354";
+    public static final String JZ_PLAY_ZJQ_NEW = "270";
+    public static final String JZ_RQSPF = "rqspf";
+    public static final String JZ_SPF = "spf";
+    public static final String JZ_Sever_2X1 = "2in1";
+    public static final String JZ_Sever_BF = "f_bf_f";
+    public static final String JZ_Sever_BQSPF = "f_bqspf_f";
+    public static final String JZ_Sever_HH = "f_hhgg";
+    public static final String JZ_Sever_RQSPF = "f_rqspf_f";
+    public static final String JZ_Sever_SPF = "f_spf_f";
+    public static final String JZ_Sever_ZJQ = "f_zjq_f";
+    public static final String JZ_ZJQ = "zjq";
+    public static final String JcLiveChildType = "JcLiveChildType";
+    public static final String JcLiveChild_Ed = "jcLiveChild_ed";
+    public static final String JcLiveChild_Ing = "jcLiveChild_ing";
+    public static final String JcLiveChild_Un = "jcLiveChild_un";
+    public static final String JcLiveChild_focus = "jcLiveChild_focus";
+    public static final String JcPlayTypeCg = "2";
+    public static final String JcPlayTypeDg = "3";
+    public static final String Jc_Match_Stop = "0";
+    public static final String JczqPeiDuiParams = "jczqpeidui";
+    public static final String Jczq_Match_Dg = "1";
+    public static final String JzRecClick = "jz_recommend_click";
+    public static final String K3 = "k3";
+    public static final HashMap<String, String> K3PlayMap;
+    public static final String K3_2BTH_PLAY = "2C";
+    public static final String K3_2THDX_PLAY = "2B";
+    public static final String K3_2THFX_PLAY = "2A";
+    public static final String K3_3BTH_PLAY = "3C";
+    public static final String K3_3LHTX_PLAY = "3D";
+    public static final String K3_3THDX_PLAY = "3B";
+    public static final String K3_3THTX_PLAY = "3A";
+    public static final String K3_CANSINO_TAG = "4_2003_1_2447";
+    public static final String K3_HT_PLAY = "HT";
+    public static final String K3_HZ_PLAY = "HZ";
+    public static final String K3_JUHE_DEF_LOTY = "k3;jk";
+    public static final String K3_LOUNGE = "K3Lounge";
+    public static final String K3_LOUNGE_DEF_LOTY = "k3;jk";
+    public static final String KEY_APP_CONFIG_GATHER_INFO = "app_config_gather_info";
+    public static final String KEY_CODES = "keycodes";
+    public static final String KEY_H5_BTN_END = "key_h5_end";
+    public static final String KEY_H5_BTN_IMG = "key_ht_img";
+    public static final String KEY_H5_BTN_START = "key_h5_start";
+    public static final String KEY_H5_BTN_TITLE = "key_ht_title";
+    public static final String KEY_H5_BTN_URL = "key_ht_url";
+    public static final String KEY_IP = "key_ip";
+    public static final String KEY_LOCAL_11X5_PLAY = "key_local_11x5_play";
+    public static final String KEY_LOCAL_DLC11X5_PLAY = "key_local_dlc11x5_play";
+    public static final String KEY_LOCAL_FC3D_PLAY = "key_local_fc3d_play";
+    public static final String KEY_LOCAL_GD11X5_PLAY = "key_local_gd11x5_play";
+    public static final String KEY_LOCAL_JL_OFFLINE_PLAY = "key_local_jl_offline_play";
+    public static final String KEY_LOCAL_JL_PLAY = "key_local_jl_play";
+    public static final String KEY_LOCAL_JZ_OFFLINE_PLAY = "key_local_jz_offline_play";
+    public static final String KEY_LOCAL_JZ_PLAY = "key_local_jz_play";
+    public static final String KEY_LOCAL_PL3_PLAY = "key_local_pl3_play";
+    public static final String KEY_LOCAL_PL5_PLAY = "key_local_pl5_play";
+    public static final String KEY_LOCAL_SYY_PLAY = "key_local_syy_play";
+    public static final String KEY_REQUEST_DATA = "key_request_data";
+    public static final String KEY_XG_TOKEN = "key_xg_token";
+    public static final String KL10F = "gkl";
+    public static final HashMap<String, String> KL10FPlayMap;
+    public static final String KL10F_HT_PLAY = "HT";
+    public static final String KL10F_RX2_PLAY = "R2";
+    public static final String KL10F_RX3_PLAY = "R3";
+    public static final String KL10F_RX4_PLAY = "R4";
+    public static final String KL10F_RX5_PLAY = "R5";
+    public static final String KL10F_X1HT_PLAY = "A1";
+    public static final String KL10F_X1ST_PLAY = "F1";
+    public static final String KL10F_X2LZ_PLAY = "B2";
+    public static final String KL10F_X3QZ_PLAY = "B3";
+    public static final int KP_IS_PRESELL = 1;
+    public static final String KaiJiangHaoMaClick = "kaijianghaoma_click";
+    public static final String Key_GunqiuConfigSp = "GunqiuConfigSp";
+    public static final String Key_PageConfigSp = "PageConfigSp";
+    public static final String Key_TabbarSp = "TabbarSp";
+    public static final String Key_User_Id = "key_user_id";
+    public static final String Key_User_LsKey = "key_user_lskey";
+    public static final String Key_User_Session = "key_user_session";
+    public static final String Key_User_Uin = "key_user_uin";
+    public static final String Key_User_sKey = "key_user_skey";
+    public static final String Key_appTipsSp = "appTipsSp";
+    public static final String Key_first_signin = "Key_first_signin";
+    public static String LATITUDE = "39.880408";
+    public static final String LIAONING_ELEVEN5_ID = "216";
+    public static final String LIVE_TAB_STATE = "tabState";
+    public static final String LNX = "lnx";
+    public static final String LOCAL_SAIGUO_SWITCH = "local_saiguo_switch";
+    public static final String LOCAL_ZJ_OFF = "local_zj_off";
+    public static final String LOGIN_STATE = "login_state";
+    public static final String LOGIN_USER_INFO = "login_user_info";
+    public static String LONGITUDE = "116.467097";
+    public static final String LOTTERRY_BEISHU_CONFIG = "lotteryBeiShuConfig";
+    public static final String LOTTERRY_CHASE_CONFIG = "lotteryChaseConfig";
+    public static final String LOTTERYDATA_KEY = "lotterydata_key";
+    public static final String LOTTERYID = "lotteryId";
+    public static final String LOTTERY_NAME = "caizhong_config";
+    public static final HashMap<String, String> LOTY_PUSH_TAG_MAP = new HashMap();
+    public static final String LOUNGE = "lounge";
+    public static final String LOUNGE_K3 = "k3_lounge";
+    public static final String LSSC = "ssc";
+    public static final String LeagueFilter = "league_filter";
+    public static final String LiveScoreClick = "live_score_click";
+    public static final String Live_ChangCi = "live_changCi";
+    public static final String Live_ComeFrom = "live_comefrom";
+    public static final String Live_GameDate = "live_gameDate";
+    public static final int Live_LeagueFilter_OK = 1019;
+    public static final String Live_Notify = "live_notify";
+    public static final String Live_PlayId = "live_playId";
+    public static final String LoginOut = "loginout";
+    public static final String LotteryEntrance = "lottery_entrance";
+    public static final String LotteryId = "lotteryId";
+    public static final String LuckyChooseClick = "lucky_choose_click";
+    public static final int MAX_COLUMN_NUM = 248;
+    public static final String MIN_BET_RATE = "5%";
+    public static final String MODIFY_NICK_NAME_FROM = "modify_nick_name_from";
+    public static final String MainDomainName = "accpbet.sporttery.cn";
+    public static final int MaxZhuShu = 10000;
+    public static final String MoreLottery = "more_lottery";
+    public static final String MtaCrashTimesKey = "Mta_CrashTimes_Key";
+    public static final HashMap<String, String> Multiple_MaxValue;
+    public static Boolean MyCharge_Pay_Fail = Boolean.valueOf(false);
+    public static Boolean MyCharge_Pay_Suc = Boolean.valueOf(false);
+    public static final String MyLottory = "1";
+    public static final String NEED_REFRESH_ACCOUNT_INFO = "refresh_account_info";
+    public static final String NEIMENGGU_ELEVEN5_ID = "328";
+    public static final String NEW_USER_PARTY = "newUserParty";
+    public static final String NINGXIA_ELEVEN5_ID = "230";
+    public static final String NewLoty = "1";
+    public static final String OPEN_VOLUME = "open_volume";
+    public static final String ORIGINAL_PAY_CFT = "cft_app";
+    public static final String ORIGINAL_PAY_CHANNEL = "pay_channel";
+    public static final String ORIGINAL_PAY_QQWALLET = "mobile";
+    public static final String ORIGINAL_PAY_TYPE = "original_pay_type";
+    public static final String ORIGINAL_PAY_WX = "wx_app";
+    public static final String OTHER_ACTIVITY = "other_activity";
+    public static final String OnGoing = "1";
+    public static final int OuGuan_OK = 1014;
+    public static final String OutDate = "2";
+    public static final int PAGE_GATHER = 6;
+    public static final int PAGE_H5 = 5;
+    public static final int PAGE_LOTTERY_CHOOSE = 1;
+    public static final int PAGE_LOTTERY_NOTICE = 3;
+    public static final int PAGE_MY_LOTTERY = 4;
+    public static final int PAGE_NO_PAGE = 0;
+    public static final String PAGE_SHARE_CONFIG = "page_share_config";
+    public static final int PAGE_TOGETHER_BUY = 2;
+    public static final String PAGE_VIEW = "page_view";
+    public static final int PAGE_WORLD_CUP = 9;
+    public static final String PARAM_LOGIN = "param_login";
+    public static String PARTY_URL = "/party/index.php";
+    public static final String PAYMENT = "payment";
+    public static final String PL3 = "35";
+    public static final String PL3_DUPLEX_PLAY = "3_2";
+    public static final String PL3_OFFLINE = "35_offline";
+    public static final String PL3_PLAY_DIRECT_DUPLEX = "415";
+    public static final String PL3_PLAY_DIRECT_SIMPLEX = "414";
+    public static final HashMap<String, String> PL3_PLAY_ID_MAPS;
+    public static final HashMap<String, String> PL3_PLAY_ID_MAPS_OLD;
+    public static final String PL3_PLAY_MIXING = "428";
+    public static final String PL3_PLAY_Z3_DUPLEX = "420";
+    public static final String PL3_PLAY_Z3_SIMPLEX = "419";
+    public static final String PL3_PLAY_Z6_DUPLEX = "425";
+    public static final String PL3_PLAY_Z6_SIMPLEX = "424";
+    public static final String PL3_SIMPLEX_PLAY = "3_1";
+    public static final String PL3_Z3HZ_PLAY = "32_2";
+    public static final String PL3_Z3_PLAY = "6_2";
+    public static final String PL3_Z6HZ_PLAY = "33_2";
+    public static final String PL3_Z6_PLAY = "5_2";
+    public static final String PL5 = "350133";
+    public static final String PL5_OFFLINE = "350133_offline";
+    public static final String PL5_PLAY = "16_2";
+    public static final String PL5_PLAY_DUPLEX = "394";
+    public static final HashMap<String, String> PL5_PLAY_ID_MAPS;
+    public static final String PL5_PLAY_MIXING = "395";
+    public static final String PL5_PLAY_SIMPLEX = "393";
+    public static final String PL5_SIMPLEX_PLAY = "16_1";
+    public static final int PRAISE_COMMENT_OK = 1026;
+    public static final int PRICE = 2;
+    public static String PROVINCE = "";
+    public static final String PerfectIdCardFaile = "-4000";
+    public static final int PerfectIdCard_OK = 1020;
+    public static final String PlanId = "planId";
+    public static final String PlanType = "planType";
+    public static final String PlayId = "playId";
+    public static final String PlayInfoClick = "play_info_click";
+    public static final String PlayType_Sever_HH = "b_hhgg";
+    public static final String PlayType_Sever_HH_Duplex = "b_hhgg_f";
+    public static final String PlayType_Sever_SF = "b_sf_f";
+    public static final String PlayType_Sever_SFC = "b_sfc_f";
+    public static final String PopupPicClick = "popup_pic_click";
+    public static final String PriceNum = "prizeNum";
+    public static final String ProjectNo = "projectNo";
+    public static final String QINGHAI_ELEVEN5_ID = "229";
+    public static final String QLC = "qlc";
+    public static final String QQRegisParams = "qqRegisParams";
+    public static final String QXC = "qxc";
+    public static final String QXC_DUMPLEX = "391";
+    public static final String QXC_MIXING = "392";
+    public static final String QXC_NEW = "4";
+    public static final String QXC_OFFLINE = "qxc_offline";
+    public static final String QXC_PLAY = "18_2";
+    public static final HashMap<String, String> QXC_PLAY_ID_MAPS;
+    public static final String QXC_SIMPLE = "390";
+    public static final String QXC_SIMPLEX_PLAY = "18_1";
+    public static final int QXC_WEI_MIN = 1;
+    public static final String QiHaoFlag = "qihaoflag";
+    public static final String R9 = "r9";
+    public static final String R9_DANTUO = "409";
+    public static final String R9_DUMPLEX = "404";
+    public static final String R9_NEW = "900129";
+    public static final HashMap<String, String> R9_PLAY_ID_MAPS;
+    public static final String R9_SIMPLE = "403";
+    public static final int RC_ORIGINAL_PAY_FAIL = 88801;
+    public static final int RC_ORIGINAL_PAY_OK = 88800;
+    public static final String RECORD_PAGE_NUMBER = "20";
+    public static final int REQUEST_CODE_H5 = 100100;
+    public static final int REQUEST_CODE_REAL_NAME_AUTHENTICATION = 1032;
+    public static final int REQUEST_CODE_SCAN = 1030;
+    public static final int REQUEST_MODIFY_BANK_CARD = 1031;
+    public static final int REQ_CODE_COUPON = 1050;
+    public static final int REQ_CODE_FEEDBACK = 1010;
+    public static final int REQ_CODE_LOGIN = 1000;
+    public static final int REQ_CODE_MESSAGE_CENTER = 1070;
+    public static final int REQ_CODE_SAVE = 1060;
+    public static final int REQ_CODE_TOGETHER_BUY = 1020;
+    public static final int RESULT_CODE_BUYLIST = 400;
+    public static final int RETCODE_ERROR = -1;
+    public static final int RETCODE_LOGIC = 0;
+    public static final int RETCODE_OK = 1;
+    public static final String RechargeMoneyFlag = "qihaoflag";
+    public static final String RechargeStepInto = "recharge_stepin";
+    public static final int Recharge_Cancel = 1010;
+    public static final int Recharge_OK = 1005;
+    public static final int Recharge_Suc = 1001;
+    public static final String RecordDetailStepInto = "record_detail_stepin";
+    public static final String RecordStepInto = "record_stepin";
+    public static final int Refresh_Cancel = 1011;
+    public static final int Refresh_OK = 1006;
+    public static final String SAIGUO_REPORT = "saiguo_report";
+    public static Bitmap SCREEN_BITMAP = null;
+    public static final String SECOUND_COLUMN_NUM = "secound_column_num";
+    public static final String SECOUND_COLUMN_TITLE = "secound_column_title";
+    public static final String SFC = "sfc";
+    public static final String SFC4_DUMPLEX = "400";
+    public static final String SFC4_NEW = "94";
+    public static final HashMap<String, String> SFC4_PLAY_ID_MAPS;
+    public static final String SFC4_SIMPLE = "399";
+    public static final String SFC6_DUMPLEX = "402";
+    public static final String SFC6_NEW = "98";
+    public static final HashMap<String, String> SFC6_PLAY_ID_MAPS;
+    public static final String SFC6_SIMPLE = "401";
+    public static final String SFC_DUMPLEX = "397";
+    public static final String SFC_NEW = "90";
+    public static final String SFC_OFFLINE = "sfc_offline";
+    public static final HashMap<String, String> SFC_PLAY_ID_MAPS;
+    public static final String SFC_SIMPLE = "396";
+    public static final String SHANDONG_ELEVEN5_ID = "103";
+    public static final String SHANGHAI_ELEVEN5_ID = "102";
+    public static final String SHANXI_JIN_ELEVEN5_ID = "224";
+    public static final String SHANXI_QIN_ELEVEN5_ID = "325";
+    public static final String SHARE = "share";
+    public static final String SP_ANIMATION_VOLUME = "sp_animation_volume";
+    public static final String SP_DIGITAL_RANDOM_CHOOSE = "sp_digital_random_choose";
+    public static final String SP_HAS_APPEAR = "has_appear";
+    public static final String SP_LAST_PAYMENT = "sp_last_payment";
+    public static final String SP_VERSION_AUTO_UPDATE = "sp_version_auto_update";
+    public static final HashMap<String, Map<String, String>> SSC_GAME_MAPS;
+    public static final String SSQ = "ssq";
+    public static final String SSQ_DUPLEX_PLAY = "17_2";
+    public static final String SSQ_SIMPLEX_PLAY = "17_1";
+    public static final int SUBMIT_COMMENT_OK = 1025;
+    public static String SUFFIX_OUGUAN_INFO = "https://accpbet.sporttery.cn/igw/v1.0//m/3g/party/0506_oghd.shtml";
+    public static final String SUFFIX_PHOTO_URL = "/my/vercode.php?color=197,188,185";
+    public static final String SWITCH_FLAG = "presentType";
+    public static final String SWITCH_OFF = "0";
+    public static final String SWITCH_ON = "1";
+    public static final String SYYDJ = "syy";
+    public static final String SYYDJ_HT_PLAY = "HT";
+    public static final String SYYDJ_Q1_PLAY = "R1";
+    public static final String SYYDJ_Q2CX_PLAY = "Z2";
+    public static final String SYYDJ_Q2DX_PLAY = "Q2";
+    public static final String SYYDJ_Q3CX_PLAY = "Z3";
+    public static final String SYYDJ_Q3DX_PLAY = "Q3";
+    public static final String SYYDJ_RX2_PLAY = "R2";
+    public static final String SYYDJ_RX3_PLAY = "R3";
+    public static final String SYYDJ_RX4_PLAY = "R4";
+    public static final String SYYDJ_RX5_PLAY = "R5";
+    public static final String SYYDJ_RX6_PLAY = "R6";
+    public static final String SYYDJ_RX7_PLAY = "R7";
+    public static final String SYYDJ_RX8_PLAY = "R8";
+    public static final int Select_Bank_OK = 1023;
+    public static final String SetChangeAccount = "set_changeAccount";
+    public static final String SetClearAccount = "set_clearAccount";
+    public static final String SetUpdate = "set_update";
+    public static final String SettingClick = "setting_click";
+    public static final String ShakeCool = "shake_cool";
+    public static final String Show_k3_casino_paytips = "show_k3_casino_paytips";
+    public static final String SlidIcon = "0";
+    public static final String SsqRecClick = "ssq_recommend_click";
+    public static final int Station_Letter_Cancel = 1022;
+    public static final int Station_Letter_OK = 1021;
+    public static final String StepIntoSuccess = "step_into_success";
+    public static final String StopSellOrBonus = "1";
+    public static final String TAG_HEMAI = "2";
+    public static final String TAG_KJ_DLT = "kj_dlt";
+    public static final String TAG_KJ_FC3D = "kj_fc3d";
+    public static final String TAG_KJ_PL3 = "kj_pl3";
+    public static final String TAG_KJ_PL5 = "kj_pl5";
+    public static final String TAG_KJ_QLC = "kj_qlc";
+    public static final String TAG_KJ_QXC = "kj_qxc";
+    public static final String TAG_KJ_SSQ = "kj_ssq";
+    public static final String TAG_ZIGOU = "1";
+    public static final String TAG_ZJ_ANIMATION_HOME = "zj_animation_home";
+    public static final String THIRD_COLUMN_NUM = "third_column_num";
+    public static final String THIRD_COLUMN_TITLE = "third_column_title";
+    public static final String TIANJING_ELEVEN5_ID = "109";
+    public static final String TRANS_BET = "1";
+    public static final String TRANS_RECHARGE = "2";
+    public static final String TRANS_REFUNDS = "4";
+    public static final String TRANS_WINGNING = "5";
+    public static final String TRANS_WITHDRAW = "3";
+    public static final String TRANS_WITHDRAW_FEE = "6";
+    public static final String TYPE_GUNQIU_LANQIU = "lanqiu";
+    public static final String TYPE_GUNQIU_ZUQIU = "zuqiu";
+    public static final String TodayLoty = "1";
+    public static final String TrueStr = "1";
+    public static final String TrumpetClick = "trumpet_click";
+    public static String USER_DRAW_MONEY = "";
+    public static String USER_K_MONEY = "";
+    public static final String USER_LOGIN = "user_login";
+    public static String USER_POINT = "";
+    public static final String USER_RECHARGE_ACTIVITY = "user_recharge_activity";
+    public static String USER_ZJ_STATE = "0";
+    public static final String UserDefinitonTitle = "title";
+    public static final String VERSION = "version";
+    public static final String ViewBetList = "view_bet_list";
+    public static final String WB_APP_KEY = "3439049483";
+    public static final String WEBVIEW = "webViewPage";
+    public static final String WEIXIN_RECHARGE_SUCESS_ACTION = "weixin_recharge_sucess_action";
+    public static String WXApp_code = "";
+    public static final String WX_LOGIN_ACTION = "wx_login_action";
+    public static final String Waiting = "0";
+    public static final String WoDeCaiPiaoClick = "wodecaipiao_click";
+    public static final String WxRegisParams = "wxRegisParams";
+    public static final String X225 = "exw";
+    public static final String X5_JUHE_DEF_LOTY = "dlc;gdx;syy";
+    public static final String XINJIANG_ELEVEN5_ID = "227";
+    public static final String XIZANG_ELEVEN5_ID = "107";
+    public static final String XSSC = "jxssc";
+    public static final String XgCrashTimesKey = "Xg_CrashTimes_Key";
+    public static final String YUNNAN_ELEVEN5_ID = "223";
+    public static final String ZHEJIANG_ELEVEN5_ID = "206";
+    public static final String ZJ_REPORT = "zj_report";
+    public static final String ZQMF = "zqmf";
+    public static final String ZQMF_NEICAN = "neican";
+    public static final String ZQMF_SUDI = "sudi";
+    public static final String ZQMF_ZHUANJIA = "zhuanjia";
+    public static final String ZhuiHaoStepInto = "zhuihao_stepin";
+    public static final int ZhuiHao_OK = 1014;
+    public static final String Zqdc_Rqspf = "rqspf";
+    public static final String action = "action";
+    public static final String actionUpdate = "update";
+    public static LruCache<String, Bitmap> adsBitmapCache = null;
+    public static final int alixpay = 1;
+    public static final int alixpaywap = 2;
+    public static final String data = "data";
+    public static boolean index_goldcoin_animation_dlt_end = false;
+    public static int index_goldcoin_animation_dlt_num = 0;
+    public static boolean index_goldcoin_animation_ssq_end = false;
+    public static int index_goldcoin_animation_ssq_num = 0;
+    public static final int mobilepay = 3;
+    public static boolean netChangeFlag = false;
+    public static final int pageSize = 10;
+    public static final String partner = "partner";
+    public static final String platform = "platform";
+    public static long sKeyRefreshTime = 0;
+    public static final HashMap<String, String> tagMap = new HashMap();
+    public static final int tenpay = 0;
 
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    private static ResponseResult a(HttpResponse httpResponse, AndroidHttpClient androidHttpClient, HttpRequestBase httpRequestBase) {
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        ResponseResult responseResult = new ResponseResult();
-        responseResult.httpStatus = statusCode;
-        if (statusCode == 200) {
-            try {
-                String a = a(AndroidHttpClient.getUngzippedContent(httpResponse.getEntity()));
-                responseResult.responseText = a;
-                if (a.length() > 0) {
-                    responseResult.bizStatus = 0;
-                } else {
-                    responseResult.bizStatus = 2;
-                }
-                closeHttpResource(httpRequestBase, androidHttpClient);
-            } catch (Throwable e) {
-                L.e("BaseAcessor", "ResponseHandle, Data convert error!!!\n");
-                L.e("BaseAcessor", e);
-                responseResult.bizStatus = 2;
-            } catch (Throwable th) {
-                closeHttpResource(httpRequestBase, androidHttpClient);
-            }
-        } else {
-            L.e("BaseAcessor", "ResponseHandle, HttpStatus: " + statusCode + LogUtils.LEFT_BRA + httpResponse.getStatusLine().getReasonPhrase() + LogUtils.RIGHT_BRA);
-            closeHttpResource(httpRequestBase, androidHttpClient);
-        }
-        return responseResult;
+    public final class MatchInfoType {
+        public static final String OFFLINE = "2";
+        public static final String ONLINE = "1";
     }
 
-    /* JADX WARNING: inconsistent code. */
-    /* Code decompiled incorrectly, please refer to instructions dump. */
-    private static String a(InputStream inputStream) {
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8192);
-            while (true) {
-                String readLine = bufferedReader.readLine();
-                if (readLine != null) {
-                    stringBuilder.append(readLine + "\n");
-                } else {
-                    try {
-                        break;
-                    } catch (IOException e) {
-                    }
-                }
-            }
-            inputStream.close();
-        } catch (IOException e2) {
-            stringBuilder.delete(0, stringBuilder.length());
-        } catch (Throwable th) {
-            try {
-                inputStream.close();
-            } catch (IOException e3) {
-            }
-        }
-        return stringBuilder.toString();
-    }
+    public class OrderOfficialStatus {
+        public static final String NOT_WINGING = "3";
+        public static final String ORDERING = "0";
+        public static final String ORDER_FAILED = "5";
+        public static final HashMap<String, String> OrderOfficialStatusMap;
+        public static final String REFUND = "4";
+        public static final String WAIT_DRAW = "1";
+        public static final String WINGING = "2";
 
-    private static String a(String str, boolean z) {
-        if (!z && str.startsWith("https://")) {
-            str = str.replaceFirst("https://", "http://");
-        }
-        return (Constants.CHANGE_TO_HTTP && str.startsWith("https://")) ? str.replaceFirst("https://", "http://") : str;
-    }
-
-    private static HashMap<String, String> a(Context context, String str) {
-        HashMap<String, String> hashMap = new HashMap();
-        hashMap.put("cms_where", BConstants.InstallChannelId);
-        hashMap.put("vId", Constants.ClientVersion);
-        hashMap.put("logicVID", Constants.LogicClientVersion);
-        hashMap.put("vest", "ticai");
-        hashMap.put("uuid", Tools.getIMEI(context));
-        hashMap.put("agentId", "110001");
-        hashMap.put("accountAlias", BConstants.ACCOUNTALIAS);
-        hashMap.put("channel", BConstants.InstallChannelId);
-        hashMap.put("interfaceVersion", "1");
-        hashMap.put("ckStr", ShareUserLogin.getUserLoginInfo().getUSER_LSKEY());
-        hashMap.put("deviceVersion", Tools.getOsVersion());
-        hashMap.put("appVersion", Constants.ClientVersion);
-        hashMap.put("user-agent-key", "4ed92dce-9c09-5554-8b3c-d4dfe43109a5");
-        if (!TextUtils.isEmpty(str)) {
-            hashMap.put("accountType", str);
-        }
-        if (ShareUserLogin.getUserLoginInfo().getUSER_LSKEY() == null || ShareUserLogin.getUserLoginInfo().getUSER_LSKEY().equals("")) {
-            hashMap.put("lskey", "");
-            hashMap.put("ckStr", "");
-        } else {
-            hashMap.put("lskey", ShareUserLogin.getUserLoginInfo().getUSER_LSKEY());
-            hashMap.put("ckStr", ShareUserLogin.getUserLoginInfo().getUSER_LSKEY());
-        }
-        if (!(ShareUserLogin.getUserLoginInfo().getSESSION_KEY() == null || ShareUserLogin.getUserLoginInfo().getSESSION_KEY().equals(""))) {
-            hashMap.put("sessionkey", ShareUserLogin.getUserLoginInfo().getSESSION_KEY());
-        }
-        if (!(ShareUserLogin.getUserLoginInfo().getUSER_UIN() == null || ShareUserLogin.getUserLoginInfo().getUSER_UIN().equals(""))) {
-            hashMap.put("uin", ShareUserLogin.getUserLoginInfo().getUSER_UIN());
-        }
-        if (TextUtils.isEmpty(ShareUserLogin.getUserLoginInfo().getUSER_ID())) {
-            hashMap.put("uid", "");
-            hashMap.put("accountNo", "");
-        } else {
-            hashMap.put("uid", ShareUserLogin.getUserLoginInfo().getUSER_ID());
-            hashMap.put("accountNo", ShareUserLogin.getUserLoginInfo().getUSER_ID());
-        }
-        if (ShareUserLogin.getUserLoginInfo().getWxUserFlag()) {
-            hashMap.put("iswx", "1");
-            if (!TextUtils.isEmpty(ShareUserLogin.getUserLoginInfo().getUSER_LSKEY())) {
-                hashMap.put("wcp_qlskey", ShareUserLogin.getUserLoginInfo().getUSER_LSKEY());
-            }
-        } else {
-            hashMap.put("iswx", "0");
-        }
-        if (ShareUserLogin.getUserLoginInfo().isPhoneType()) {
-            hashMap.put("iswx", "2");
-        }
-        hashMap.put(DistrictSearchQuery.KEYWORDS_PROVINCE, BConstants.PROVINCE);
-        hashMap.put("nonce", UUID.randomUUID().toString());
-        hashMap.put("timestamp", System.currentTimeMillis());
-        hashMap.put("appType", "ticai_android");
-        hashMap.put("sdkVer", Tools.getOsVersion());
-        hashMap.put("deviceVer", Tools.getOsDeviceVer());
-        hashMap.put("manufacturer", Tools.getManufacturer());
-        hashMap.put("brand", Tools.getBrand());
-        hashMap.put("token", SharedPreferencesTools.getLocalData(BConstants.KEY_XG_TOKEN, context, new String[0]));
-        hashMap.put("cmsWhere", BConstants.InstallChannelId);
-        hashMap.put("platform", "1");
-        int[] screenResolution = Tools.getScreenResolution(context);
-        if (screenResolution.length > 1) {
-            hashMap.put("screenRes", screenResolution[0] + BConstants.CONTENTSPLITEFLAG_HLine + screenResolution[1]);
-        } else {
-            hashMap.put("screenRes", "");
-        }
-        if (!TextUtils.isEmpty(Constants.ENV_MODE)) {
-            hashMap.put("env", Constants.ENV_MODE);
-        }
-        return hashMap;
-    }
-
-    private static Map<String, String> a(Map<String, String> map) {
-        Map<String, String> hashMap = new HashMap();
-        for (int i = 0; i < a.length; i++) {
-            hashMap.put(a[i], map.get(a[i]));
-        }
-        return hashMap;
-    }
-
-    private static HttpHost a(Context context) {
-        HttpHost httpHost;
-        if (context != null) {
-            try {
-                NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService("connectivity")).getActiveNetworkInfo();
-                if (activeNetworkInfo == null || !NetUtils.NET_WIFI.equalsIgnoreCase(activeNetworkInfo.getTypeName())) {
-                    String defaultHost = Proxy.getDefaultHost();
-                    int defaultPort = Proxy.getDefaultPort();
-                    if (defaultHost != null) {
-                        httpHost = new HttpHost(defaultHost, defaultPort);
-                        return httpHost;
-                    }
-                }
-            } catch (Throwable e) {
-                L.e("BaseAcessor", e);
-                return null;
-            }
-        }
-        httpHost = null;
-        return httpHost;
-    }
-
-    private static void a(HttpRequestBase httpRequestBase) {
-        Header commHeader = InterfaceHelper.getInstance().getCommHeader();
-        if (commHeader != null && commHeader.consts != null) {
-            int length = commHeader.consts.length;
-            for (int i = 0; i < length; i++) {
-                httpRequestBase.addHeader(commHeader.consts[i].key, commHeader.consts[i].value);
-            }
+        static {
+            HashMap hashMap = new HashMap();
+            OrderOfficialStatusMap = hashMap;
+            hashMap.put("0", "处理中");
+            OrderOfficialStatusMap.put("1", "待开奖");
+            OrderOfficialStatusMap.put("2", "已中奖");
+            OrderOfficialStatusMap.put("3", "未中奖");
+            OrderOfficialStatusMap.put("4", "已退款");
+            OrderOfficialStatusMap.put("5", "投注失败");
         }
     }
 
-    public static boolean chechNetStateByResponse(String str, BaseNetData baseNetData) {
-        if (str.equalsIgnoreCase("2")) {
-            baseNetData.Net_State = 2;
-            return false;
-        } else if (str.equalsIgnoreCase("1")) {
-            baseNetData.Net_State = 1;
-            return false;
-        } else {
-            baseNetData.Net_State = 3;
-            return true;
-        }
+    public class OrderStatus {
+        public static final String GENERATE_FAIL = "99";
+        public static final String GENERATE_OK = "300";
+        public static final String GENERATING = "200";
+        public static final String OK = "0";
+        public static final String PART_GENERATE = "290";
+        public static final String SPLIT_OK = "100";
     }
 
-    public static void closeHttpResource(HttpRequestBase httpRequestBase, AndroidHttpClient androidHttpClient) {
-        if (androidHttpClient != null) {
-            androidHttpClient.close();
-        }
-        if (httpRequestBase != null) {
-            httpRequestBase.abort();
-        }
+    public class PrizeStatus {
+        public static final String PARTSETTLED = "1";
+        public static final String SETTLED = "2";
+        public static final String UNSETTLED = "0";
     }
 
-    public static ResponseResult doGetRequest(Context context, String str, Map<String, String> map) {
-        AndroidHttpClient newInstanceHttps;
-        HttpRequestBase httpGet;
-        Exception e;
-        if (Tools.checkActionNet(context)) {
-            boolean z;
-            ResponseResult a;
-            if (NetUtils.isHttps(str)) {
-                try {
-                    newInstanceHttps = AndroidHttpClient.newInstanceHttps(context);
-                    z = true;
-                } catch (HttpsException e2) {
-                    L.e("BaseAcessor", "客户端不支持https协议, 切换至http协议.\n" + e2.toString());
-                }
-                str = a(str, z);
-                httpGet = new HttpGet(str);
-                try {
-                    httpGet.addHeader("seckey", getSeckey(map));
-                    a = a(doRequest(context, newInstanceHttps, httpGet, map, null), newInstanceHttps, httpGet);
-                    ResponseResult.wrapperResponseResult(a, str, map, null);
-                    return a;
-                } catch (Exception e3) {
-                    e = e3;
-                    L.monitor("BaseAcessor", "Net Error[2]\n" + e);
-                    closeHttpResource(httpGet, newInstanceHttps);
-                    return ResponseResult.newExceptionResult(e, str, map, null);
-                }
-            }
-            newInstanceHttps = AndroidHttpClient.newInstance(context);
-            z = false;
-            try {
-                str = a(str, z);
-                httpGet = new HttpGet(str);
-                httpGet.addHeader("seckey", getSeckey(map));
-                a = a(doRequest(context, newInstanceHttps, httpGet, map, null), newInstanceHttps, httpGet);
-                ResponseResult.wrapperResponseResult(a, str, map, null);
-                return a;
-            } catch (Exception e4) {
-                e = e4;
-                httpGet = null;
-                L.monitor("BaseAcessor", "Net Error[2]\n" + e);
-                closeHttpResource(httpGet, newInstanceHttps);
-                return ResponseResult.newExceptionResult(e, str, map, null);
-            }
-        }
-        L.monitor("BaseAcessor", "Local Net Error[1]");
-        return ResponseResult.newNoNetResult(str, map, null);
+    static {
+        HashMap hashMap = new HashMap();
+        Gd11x5PlayMap = hashMap;
+        hashMap.put("任选二", "R2");
+        Gd11x5PlayMap.put("前一", "R1");
+        Gd11x5PlayMap.put("任选三", "R3");
+        Gd11x5PlayMap.put("任选四", "R4");
+        Gd11x5PlayMap.put("任选五", "R5");
+        Gd11x5PlayMap.put("任选六", "R6");
+        Gd11x5PlayMap.put("任选七", "R7");
+        Gd11x5PlayMap.put("任选八", "R8");
+        Gd11x5PlayMap.put("前二直选", "Q2");
+        Gd11x5PlayMap.put("前二组选", "Z2");
+        Gd11x5PlayMap.put("前三直选", "Q3");
+        Gd11x5PlayMap.put("前三组选", "Z3");
+        hashMap = new HashMap();
+        JS11x5PlayMap = hashMap;
+        hashMap.put("任选一", "R1");
+        JS11x5PlayMap.put("任选二", "R2");
+        JS11x5PlayMap.put("任选三", "R3");
+        JS11x5PlayMap.put("任选四", "R4");
+        JS11x5PlayMap.put("任选五", "R5");
+        JS11x5PlayMap.put("任选六", "R6");
+        JS11x5PlayMap.put("任选七", "R7");
+        JS11x5PlayMap.put("任选八", "R8");
+        JS11x5PlayMap.put("前二直选", "Q2");
+        JS11x5PlayMap.put("前二组选", "Z2");
+        JS11x5PlayMap.put("前三直选", "Q3");
+        JS11x5PlayMap.put("前三组选", "Z3");
+        JS11x5PlayMap.put("任选二-胆拖", ELEVEN5_R2DT);
+        JS11x5PlayMap.put("任选三-胆拖", ELEVEN5_R3DT);
+        JS11x5PlayMap.put("任选四-胆拖", ELEVEN5_R4DT);
+        JS11x5PlayMap.put("任选五-胆拖", ELEVEN5_R5DT);
+        JS11x5PlayMap.put("任选六-胆拖", ELEVEN5_R6DT);
+        JS11x5PlayMap.put("任选七-胆拖", ELEVEN5_R7DT);
+        JS11x5PlayMap.put("前二组选-胆拖", ELEVEN5_Z2DT);
+        JS11x5PlayMap.put("前三组选-胆拖", ELEVEN5_Z3DT);
+        hashMap = new HashMap();
+        JS11x5PlayNameMap = hashMap;
+        hashMap.put("R1", "任选一");
+        JS11x5PlayNameMap.put("R2", "任选二");
+        JS11x5PlayNameMap.put("R3", "任选三");
+        JS11x5PlayNameMap.put("R4", "任选四");
+        JS11x5PlayNameMap.put("R5", "任选五");
+        JS11x5PlayNameMap.put("R6", "任选六");
+        JS11x5PlayNameMap.put("R7", "任选七");
+        JS11x5PlayNameMap.put("R8", "任选八");
+        JS11x5PlayNameMap.put("Q2", "前二直选");
+        JS11x5PlayNameMap.put("Z2", "前二组选");
+        JS11x5PlayNameMap.put("Q3", "前三直选");
+        JS11x5PlayNameMap.put("Z3", "前三组选");
+        JS11x5PlayNameMap.put(ELEVEN5_R2DT, "任选二-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_R3DT, "任选三-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_R4DT, "任选四-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_R5DT, "任选五-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_R6DT, "任选六-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_R7DT, "任选七-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_Z2DT, "前二组选-胆拖");
+        JS11x5PlayNameMap.put(ELEVEN5_Z3DT, "前三组选-胆拖");
+        hashMap = new HashMap();
+        KL10FPlayMap = hashMap;
+        hashMap.put("选一数投", KL10F_X1ST_PLAY);
+        KL10FPlayMap.put("选一红投", KL10F_X1HT_PLAY);
+        KL10FPlayMap.put("任选二", "R2");
+        KL10FPlayMap.put("任选三", "R3");
+        KL10FPlayMap.put("任选四", "R4");
+        KL10FPlayMap.put("任选五", "R5");
+        KL10FPlayMap.put("选二连组", KL10F_X2LZ_PLAY);
+        KL10FPlayMap.put("选三前组", KL10F_X3QZ_PLAY);
+        hashMap = new HashMap();
+        K3PlayMap = hashMap;
+        hashMap.put("和值", "HZ");
+        K3PlayMap.put("三同号通选", "3A");
+        K3PlayMap.put("三同号单选", "3B");
+        K3PlayMap.put("三不同号", "3C");
+        K3PlayMap.put("三连号通选", "3D");
+        K3PlayMap.put("二同号复选", "2A");
+        K3PlayMap.put("二同号单选", "2B");
+        K3PlayMap.put("二不同号", "2C");
+        hashMap = new HashMap();
+        JLK3PlayMap = hashMap;
+        hashMap.put("和值", "HZ");
+        JLK3PlayMap.put("三同号通选", "3A");
+        JLK3PlayMap.put("三同号单选", "3B");
+        JLK3PlayMap.put("三不同号", "3C");
+        JLK3PlayMap.put("三连号通选", "3D");
+        JLK3PlayMap.put("二同号复选", "2A");
+        JLK3PlayMap.put("二同号单选", "2B");
+        JLK3PlayMap.put("二不同号", "2C");
+        hashMap = new HashMap();
+        Multiple_MaxValue = hashMap;
+        hashMap.put(SSQ, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(DLT, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(DLT_OFFLINE, "999");
+        Multiple_MaxValue.put(FC3D, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(QXC, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(QXC_OFFLINE, "999");
+        Multiple_MaxValue.put(JCZQ, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(JCZQ_OFFLINE, "999");
+        Multiple_MaxValue.put(JCLQ, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(JCLQ_OFFLINE, "999");
+        Multiple_MaxValue.put(GD11X5, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(DLC_11X5, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(SYYDJ, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(KL10F, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(K3, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put("jk3", OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(PL3, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(PL3_OFFLINE, "999");
+        Multiple_MaxValue.put(PL5, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(PL5_OFFLINE, "999");
+        Multiple_MaxValue.put("sfc", OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(SFC_OFFLINE, "999");
+        Multiple_MaxValue.put(BD, "99999");
+        Multiple_MaxValue.put(CQSSC, OrderStatus.GENERATE_FAIL);
+        Multiple_MaxValue.put(ELEVEN5_OFFLINE, "999");
+        tagMap.put(TAG_KJ_SSQ, "大乐透");
+        tagMap.put(TAG_KJ_DLT, "超级大乐透");
+        tagMap.put(TAG_KJ_FC3D, "体彩3D");
+        tagMap.put(TAG_KJ_PL3, "排列3");
+        tagMap.put(TAG_KJ_PL5, "排列5");
+        tagMap.put(TAG_KJ_QXC, "7星彩");
+        tagMap.put(TAG_KJ_QLC, "大乐透");
+        LOTY_PUSH_TAG_MAP.put(SSQ, TAG_KJ_SSQ);
+        LOTY_PUSH_TAG_MAP.put(DLT, TAG_KJ_DLT);
+        LOTY_PUSH_TAG_MAP.put(FC3D, TAG_KJ_FC3D);
+        LOTY_PUSH_TAG_MAP.put(PL3, TAG_KJ_PL3);
+        LOTY_PUSH_TAG_MAP.put(PL5, TAG_KJ_PL5);
+        LOTY_PUSH_TAG_MAP.put(QXC, TAG_KJ_QXC);
+        LOTY_PUSH_TAG_MAP.put(QLC, TAG_KJ_QLC);
+        hashMap = new HashMap();
+        JCZQ_PLAY_ID_MAPS = hashMap;
+        hashMap.put(JZ_PLAY_RQSPF_NEW, "让球胜平负");
+        JCZQ_PLAY_ID_MAPS.put(JZ_PLAY_ZJQ_NEW, "总进球数");
+        JCZQ_PLAY_ID_MAPS.put(JZ_PLAY_BF_NEW, "比分");
+        JCZQ_PLAY_ID_MAPS.put(JZ_PLAY_BQSPF_NEW, "半全场胜平负");
+        JCZQ_PLAY_ID_MAPS.put(JZ_PLAY_HHGG_NEW, "混投");
+        JCZQ_PLAY_ID_MAPS.put(JZ_PLAY_SPF_NEW, "胜平负");
+        JCZQ_PLAY_ID_MAPS.put("406", "大小球");
+        hashMap = new HashMap();
+        JCMC_PLAY_ID_MAPS = hashMap;
+        hashMap.put("410", "冠军");
+        JCMC_PLAY_ID_MAPS.put("411", "冠亚军");
+        hashMap = new HashMap();
+        JCLQ_PLAY_ID_MAPS = hashMap;
+        hashMap.put(JL_PLAY_RFSF_NEW, "让分胜负");
+        JCLQ_PLAY_ID_MAPS.put(JL_PLAY_SF_NEW, "胜负");
+        JCLQ_PLAY_ID_MAPS.put(JL_PLAY_SFC_NEW, "胜分差");
+        JCLQ_PLAY_ID_MAPS.put(JL_PLAY_DXF_NEW, "大小分");
+        JCLQ_PLAY_ID_MAPS.put(JL_PLAY_HHGG_NEW, "混投");
+        hashMap = new HashMap();
+        DLT_PLAY_ID_MAPS = hashMap;
+        hashMap.put("1", "单式");
+        DLT_PLAY_ID_MAPS.put(SFC6_NEW, "单式追加");
+        DLT_PLAY_ID_MAPS.put("387", "复式");
+        DLT_PLAY_ID_MAPS.put("388", "复式追加");
+        DLT_PLAY_ID_MAPS.put("135", "胆拖");
+        DLT_PLAY_ID_MAPS.put("143", "胆拖追加");
+        DLT_PLAY_ID_MAPS.put("389", "混合玩法");
+        hashMap = new HashMap();
+        PL3_PLAY_ID_MAPS_OLD = hashMap;
+        hashMap.put(PL3_PLAY_DIRECT_SIMPLEX, PL3_DUPLEX_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put(PL3_PLAY_DIRECT_DUPLEX, PL3_DUPLEX_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("416", PL3_DUPLEX_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("417", PL3_DUPLEX_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("418", PL3_DUPLEX_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put(PL3_PLAY_Z3_SIMPLEX, PL3_Z3_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put(PL3_PLAY_Z3_DUPLEX, PL3_Z3_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("422", PL3_Z3_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("423", PL3_Z3_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put(PL3_PLAY_Z6_SIMPLEX, PL3_Z6_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put(PL3_PLAY_Z6_DUPLEX, PL3_Z6_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("426", PL3_Z6_PLAY);
+        PL3_PLAY_ID_MAPS_OLD.put("427", PL3_Z6_PLAY);
+        hashMap = new HashMap();
+        PL3_PLAY_ID_MAPS = hashMap;
+        hashMap.put(PL3_PLAY_DIRECT_SIMPLEX, "直选单式");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_DIRECT_DUPLEX, "直选复式");
+        PL3_PLAY_ID_MAPS.put("416", "直选和值");
+        PL3_PLAY_ID_MAPS.put("417", "直选跨度");
+        PL3_PLAY_ID_MAPS.put("418", "组合复式");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_Z3_SIMPLEX, "组三单式");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_Z3_DUPLEX, "组三复式");
+        PL3_PLAY_ID_MAPS.put("421", "组选和值");
+        PL3_PLAY_ID_MAPS.put("422", "组三跨度");
+        PL3_PLAY_ID_MAPS.put("423", "组三胆拖");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_Z6_SIMPLEX, "组六单式");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_Z6_DUPLEX, "组六复式");
+        PL3_PLAY_ID_MAPS.put("426", "组六跨度");
+        PL3_PLAY_ID_MAPS.put("427", "组六胆拖");
+        PL3_PLAY_ID_MAPS.put(PL3_PLAY_MIXING, "混合投注");
+        PL3_PLAY_ID_MAPS.put("429", "组合胆拖");
+        hashMap = new HashMap();
+        PL5_PLAY_ID_MAPS = hashMap;
+        hashMap.put(PL5_PLAY_SIMPLEX, "单式");
+        PL5_PLAY_ID_MAPS.put(PL5_PLAY_DUPLEX, "复式");
+        PL5_PLAY_ID_MAPS.put(PL5_PLAY_MIXING, "组合玩法");
+        PL5_PLAY_ID_MAPS.put("430", "混合投注");
+        hashMap = new HashMap();
+        R9_PLAY_ID_MAPS = hashMap;
+        hashMap.put(R9_SIMPLE, "单式");
+        R9_PLAY_ID_MAPS.put(R9_DUMPLEX, "复式");
+        R9_PLAY_ID_MAPS.put(R9_DANTUO, "胆拖");
+        hashMap = new HashMap();
+        SFC_PLAY_ID_MAPS = hashMap;
+        hashMap.put(SFC_SIMPLE, "单式");
+        SFC_PLAY_ID_MAPS.put(SFC_DUMPLEX, "复式");
+        hashMap = new HashMap();
+        SFC6_PLAY_ID_MAPS = hashMap;
+        hashMap.put(SFC6_SIMPLE, "单式");
+        SFC6_PLAY_ID_MAPS.put(SFC6_DUMPLEX, "复式");
+        hashMap = new HashMap();
+        SFC4_PLAY_ID_MAPS = hashMap;
+        hashMap.put(SFC4_SIMPLE, "单式");
+        SFC4_PLAY_ID_MAPS.put(SFC4_DUMPLEX, "复式");
+        hashMap = new HashMap();
+        QXC_PLAY_ID_MAPS = hashMap;
+        hashMap.put(QXC_SIMPLE, "单式");
+        QXC_PLAY_ID_MAPS.put(QXC_DUMPLEX, "复式");
+        QXC_PLAY_ID_MAPS.put(QXC_MIXING, "混合投注");
+        hashMap = new HashMap();
+        SSC_GAME_MAPS = hashMap;
+        hashMap.put(PL3, PL3_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(PL5, PL5_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(DLT, DLT_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(R9_NEW, R9_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(SFC_NEW, SFC_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(SFC4_NEW, SFC4_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put(SFC6_NEW, SFC6_PLAY_ID_MAPS);
+        SSC_GAME_MAPS.put("4", QXC_PLAY_ID_MAPS);
+        hashMap = new HashMap();
+        JJC_GAME_MAPS = hashMap;
+        hashMap.put("0", JCZQ_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(JCZQ, JCZQ_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put("1", JCLQ_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(JCLQ, JCLQ_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put("2", JCMC_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(SFC_NEW, SFC_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(SFC4_NEW, SFC4_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(SFC6_NEW, SFC6_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put("sfc", SFC_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(R9_NEW, R9_PLAY_ID_MAPS);
+        JJC_GAME_MAPS.put(R9, R9_PLAY_ID_MAPS);
     }
 
-    public static ResponseResult doPostRequest(Context context, String str, Map<String, String> map, Map<String, String> map2) {
-        AndroidHttpClient newInstanceHttps;
-        boolean z;
-        List arrayList;
-        HttpRequestBase httpPost;
-        Exception e;
-        if (NetUtils.isHttps(str)) {
-            try {
-                newInstanceHttps = AndroidHttpClient.newInstanceHttps(context);
-                z = true;
-            } catch (HttpsException e2) {
-                L.e("BaseAcessor", "客户端不支持https协议, 切换至http协议.\n" + e2.toString());
-            }
-            arrayList = new ArrayList();
-            for (Entry entry : map2.entrySet()) {
-                arrayList.add(new BasicNameValuePair((String) entry.getKey(), (String) entry.getValue()));
-            }
-            str = a(str, z);
-            httpPost = new HttpPost(str);
-            try {
-                httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-                httpPost.setEntity(new UrlEncodedFormEntity(arrayList, "UTF-8"));
-                ResponseResult a = a(doRequest(context, newInstanceHttps, httpPost, map, map2), newInstanceHttps, httpPost);
-                ResponseResult.wrapperResponseResult(a, str, map, null);
-                return a;
-            } catch (Exception e3) {
-                e = e3;
-                L.e("BaseAcessor", "Net Error[2]\n" + e);
-                closeHttpResource(httpPost, newInstanceHttps);
-                return ResponseResult.newExceptionResult(e, str, map, map2);
-            }
-        }
-        newInstanceHttps = AndroidHttpClient.newInstance(context);
-        z = false;
-        arrayList = new ArrayList();
-        for (Entry entry2 : map2.entrySet()) {
-            arrayList.add(new BasicNameValuePair((String) entry2.getKey(), (String) entry2.getValue()));
-        }
-        try {
-            str = a(str, z);
-            httpPost = new HttpPost(str);
-            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            httpPost.setEntity(new UrlEncodedFormEntity(arrayList, "UTF-8"));
-            ResponseResult a2 = a(doRequest(context, newInstanceHttps, httpPost, map, map2), newInstanceHttps, httpPost);
-            ResponseResult.wrapperResponseResult(a2, str, map, null);
-            return a2;
-        } catch (Exception e4) {
-            e = e4;
-            httpPost = null;
-            L.e("BaseAcessor", "Net Error[2]\n" + e);
-            closeHttpResource(httpPost, newInstanceHttps);
-            return ResponseResult.newExceptionResult(e, str, map, map2);
-        }
+    public static String commonUrlAppWXLogin() {
+        Object url = InterfaceHelper.getInstance().getUrl("common_url_app_wx_login");
+        return !TextUtils.isEmpty(url) ? url : "http://tc.w-caipiao.tenpay.com/tws/appwxlogin/AppWxlogin";
     }
 
-    public static ResponseResult doPostRequest_BAK(Context context, String str, Map<String, String> map, Map<String, String> map2) {
-        if (Tools.checkActionNet(context)) {
-            return doPostRequest(context, str, map, map2);
-        }
-        L.monitor("BaseAcessor", "Local Net Error[1]");
-        return ResponseResult.newNoNetResult(str, map, map2);
+    public static String commonUrlCapitalServiceProtocol() {
+        return InterfaceHelper.getInstance().getUrl("common_url_capital_service_protocol");
     }
 
-    public static HttpResponse doRequest(Context context, AndroidHttpClient androidHttpClient, HttpRequestBase httpRequestBase, Map<String, String> map, Map<String, String> map2) {
-        Object secSrcStr = getSecSrcStr(map);
-        Object secSrcStr2 = getSecSrcStr(map2);
-        L.i("BaseAcessor", "getParamSrc-->" + secSrcStr);
-        L.i("BaseAcessor", "postParamSrc-->" + secSrcStr2);
-        setClientDefaultProxy(context, androidHttpClient);
-        Map genRequestParams = genRequestParams(context);
-        httpRequestBase.addHeader("referer", "https://accpbet.sporttery.cn/igw/v1.0/");
-        a(httpRequestBase);
-        AndroidHttpClient.modifyRequestToAcceptGzipResponse(httpRequestBase);
-        org.apache.http.Header[] allHeaders = httpRequestBase.getAllHeaders();
-        Map hashMap = new HashMap();
-        for (org.apache.http.Header header : allHeaders) {
-            hashMap.put(header.getName(), header.getValue());
-        }
-        getSeckey(a(genRequestParams));
-        Object secSrcStr3 = getSecSrcStr(a(genRequestParams));
-        String str = "";
-        if (TextUtils.isEmpty(secSrcStr) && TextUtils.isEmpty(secSrcStr2)) {
-            String str2 = str;
-        } else {
-            StringBuffer stringBuffer = new StringBuffer();
-            if (!TextUtils.isEmpty(secSrcStr3)) {
-                stringBuffer.append(secSrcStr3);
-            }
-            if (!TextUtils.isEmpty(secSrcStr)) {
-                stringBuffer.append("&");
-                stringBuffer.append(secSrcStr);
-            }
-            if (!TextUtils.isEmpty(secSrcStr2)) {
-                stringBuffer.append("&");
-                stringBuffer.append(secSrcStr2);
-            }
-            secSrcStr2 = getSignValue(Uri.decode(stringBuffer.toString()).toLowerCase()).toLowerCase();
-        }
-        if (map2 != null && map2.entrySet().size() > 0) {
-            JSONObject jSONObject = new JSONObject();
-            JSONObject jSONObject2 = new JSONObject();
-            JSONObject jSONObject3 = new JSONObject();
-            try {
-                for (Entry entry : a(genRequestParams).entrySet()) {
-                    jSONObject2.put((String) entry.getKey(), entry.getValue());
-                }
-                jSONObject2.put("sign", secSrcStr2);
-                jSONObject.put("headers", jSONObject2);
-                for (Entry entry2 : map2.entrySet()) {
-                    if (entry2.getValue() != null) {
-                        jSONObject3.put((String) entry2.getKey(), entry2.getValue());
-                    } else {
-                        jSONObject3.put((String) entry2.getKey(), "");
-                    }
-                }
-                jSONObject.put("body", jSONObject3);
-                str = CodeUtil.encode(jSONObject.toString());
-                List arrayList = new ArrayList();
-                arrayList.add(new BasicNameValuePair(H5UrlConfigInfo.CONTENT, str));
-                ((HttpPost) httpRequestBase).setEntity(new UrlEncodedFormEntity(arrayList, "UTF-8"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        HttpResponse execute = androidHttpClient.execute(httpRequestBase);
-        if (execute.getStatusLine().getStatusCode() != 200) {
-            return execute;
-        }
-        org.apache.http.Header firstHeader = execute.getFirstHeader("Content-Type");
-        secSrcStr = (firstHeader == null || firstHeader.getValue() == null || firstHeader.getValue().indexOf("wap.wml") <= 0) ? null : 1;
-        return secSrcStr != null ? androidHttpClient.execute(httpRequestBase) : execute;
+    public static String commonUrlCftCallback() {
+        Object url = InterfaceHelper.getInstance().getUrl("common_url_cft_callback");
+        return !TextUtils.isEmpty(url) ? url : "https://accpbet.sporttery.cn/igw/v1.0//tws/recharge/PayReturnBack";
     }
 
-    public static HashMap<String, String> genRequestParams(Context context) {
-        return a(context, "");
+    public static String commonUrlChuPiaoDetail() {
+        return InterfaceHelper.getInstance().getUrl("common_url_chupiao_detail");
     }
 
-    public static HashMap<String, String> genRequestParams(Context context, String str) {
-        return a(context, str);
+    public static String commonUrlFastPaymentAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_fast_payment_agreement");
     }
 
-    public static synchronized String getSecSrcStr(Map<String, String> map) {
-        String str;
-        synchronized (BaseAccessor.class) {
-            StringBuffer stringBuffer = new StringBuffer();
-            if (map == null || map.size() <= 0) {
-                str = "";
-            } else {
-                int i;
-                Object[] toArray = map.keySet().toArray();
-                Arrays.sort(toArray);
-                int i2 = 0;
-                for (Object obj : toArray) {
-                    i2 += obj.toString().length();
-                }
-                for (i = 0; i < toArray.length; i++) {
-                    if (i == toArray.length - 1) {
-                        stringBuffer.append(toArray[i].toString() + "=");
-                        if (!TextUtils.isEmpty((CharSequence) map.get(toArray[i]))) {
-                            stringBuffer.append(Uri.decode((String) map.get(toArray[i])));
-                        }
-                    } else {
-                        stringBuffer.append(toArray[i].toString() + "=");
-                        if (!TextUtils.isEmpty((CharSequence) map.get(toArray[i]))) {
-                            stringBuffer.append(Uri.decode((String) map.get(toArray[i])));
-                        }
-                        stringBuffer.append(String.valueOf(i2));
-                    }
-                }
-                str = stringBuffer.toString();
-            }
-        }
-        return str;
+    public static String commonUrlHenanPromotion() {
+        return InterfaceHelper.getInstance().getUrl("common_url_henan_promotion");
     }
 
-    public static synchronized String getSeckey(Map<String, String> map) {
-        String str;
-        synchronized (BaseAccessor.class) {
-            StringBuffer stringBuffer = new StringBuffer();
-            if (map == null || map.size() <= 0) {
-                str = "";
-            } else {
-                Object[] toArray = map.keySet().toArray();
-                Arrays.sort(toArray);
-                for (int i = 0; i < toArray.length; i++) {
-                    stringBuffer.append(toArray[i].toString());
-                    if (!TextUtils.isEmpty((CharSequence) map.get(toArray[i]))) {
-                        stringBuffer.append(Uri.decode((String) map.get(toArray[i])));
-                    }
-                }
-                Common.encryptN(stringBuffer.toString(), "");
-                MemoryCache instance = MemoryCache.getInstance();
-                String crypt = MD5.crypt(stringBuffer.toString());
-                str = (String) instance.getValue(crypt);
-                instance.removeValue(crypt);
-            }
-        }
-        return str;
+    public static String commonUrlJiFen() {
+        return InterfaceHelper.getInstance().getUrl("common_url_jifen");
     }
 
-    public static synchronized String getSignValue(String str) {
-        String sha256;
-        synchronized (BaseAccessor.class) {
-            sha256 = CodeUtil.sha256(str);
-        }
-        return sha256;
+    public static String commonUrlJiFenEntertainment() {
+        return InterfaceHelper.getInstance().getUrl("common_url_jifen_entertainment");
     }
 
-    public static void setClientDefaultProxy(Context context, AndroidHttpClient androidHttpClient) {
-        HttpHost a = a(context);
-        if (a != null) {
-            androidHttpClient.getParams().setParameter("http.route.default-proxy", a);
-        }
+    public static String commonUrlJiangxiScanRegister() {
+        return InterfaceHelper.getInstance().getUrl("common_url_jiangxi_scan_register");
+    }
+
+    public static String commonUrlLotyCardTrade() {
+        return InterfaceHelper.getInstance().getUrl("common_url_loty_card_trade");
+    }
+
+    public static String commonUrlLotyPlayDesc() {
+        return InterfaceHelper.getInstance().getUrl("common_url_loty_play_desc");
+    }
+
+    public static String commonUrlOfflineBetAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_offline_bet_agreement");
+    }
+
+    public static String commonUrlOnlineBetAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_online_bet_agreement");
+    }
+
+    public static String commonUrlPayAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_pay_agreement");
+    }
+
+    public static String commonUrlRank() {
+        return InterfaceHelper.getInstance().getUrl("common_url_rank");
+    }
+
+    public static String commonUrlRealNameServiceProtocol() {
+        return InterfaceHelper.getInstance().getUrl("common_url_real_name_service_protocol");
+    }
+
+    public static String commonUrlRegisterAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_register_agreement");
+    }
+
+    public static String commonUrlRegisterOneAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_register_one_agreement");
+    }
+
+    public static String commonUrlRegisterTwoAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_register_two_agreement");
+    }
+
+    public static String commonUrlScanExplain() {
+        return InterfaceHelper.getInstance().getUrl("common_url_scan_explain");
+    }
+
+    public static String commonUrlScanRegister() {
+        return InterfaceHelper.getInstance().getUrl("common_url_scan_register");
+    }
+
+    public static String commonUrlScanServiceProtocol() {
+        return InterfaceHelper.getInstance().getUrl("common_url_scan_service_protocol");
+    }
+
+    public static String commonUrlShareDestPage() {
+        return InterfaceHelper.getInstance().getUrl("common_url_share_dest_page");
+    }
+
+    public static String commonUrlShareImage() {
+        return InterfaceHelper.getInstance().getUrl("common_url_app_share_image");
+    }
+
+    public static String commonUrlUserAgreement() {
+        return InterfaceHelper.getInstance().getUrl("common_url_user_agreement");
     }
 }
